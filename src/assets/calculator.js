@@ -324,6 +324,15 @@
     if (el) el.classList.toggle("is-invalid", !!on);
   }
 
+  function showDone() {
+    form.hidden = true;
+    if (errEl) errEl.hidden = true;
+    if (done) {
+      done.hidden = false;
+      done.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -349,7 +358,7 @@
       if (!agree.checked) ok = false;
 
       if (!ok) {
-        if (errEl) errEl.hidden = false;
+        if (errEl) { errEl.textContent = "필수 항목을 확인해 주세요."; errEl.hidden = false; }
         return;
       }
       if (errEl) errEl.hidden = true;
@@ -357,11 +366,41 @@
       // 신청 직전 최신 조건을 hidden 필드에 반영
       if (configField) configField.value = buildConfigSummary() || "상품 미선택 (상담 후 결정)";
 
-      // TODO(전송 연결): 여기서 fetch(form.action, {...}) 로 실제 전송하세요.
-      // 현재는 UI 데모로 접수 완료 화면만 표시합니다.
-      form.hidden = true;
-      if (done) done.hidden = false;
-      if (done) done.scrollIntoView({ behavior: "smooth", block: "center" });
+      // 폼 데이터 수집 (허니팟 company_url 포함 → 서버에서 봇 차단)
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
+      data.agree = agree.checked;
+
+      var endpoint = form.getAttribute("data-endpoint");
+      var submitBtn = form.querySelector('button[type="submit"]');
+
+      // 엔드포인트 미설정 → 데모(검증 후 완료 화면만)
+      if (!endpoint) {
+        showDone();
+        return;
+      }
+
+      // 실제 전송: intake Lambda 로 POST → SQS → Slack 채널 알림
+      var origText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "신청 접수 중…"; }
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+        .then(function (body) { if (body && body.ok) showDone(); else throw new Error("응답 오류"); })
+        .catch(function (err) {
+          console.error("[상담신청 전송 실패]", err);
+          if (errEl) {
+            errEl.textContent = "전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+            errEl.hidden = false;
+          }
+        })
+        .finally(function () {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origText; }
+        });
     });
   }
 

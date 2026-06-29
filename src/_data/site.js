@@ -25,6 +25,13 @@ module.exports = {
     name: "오피스넷·인터넷전화 안내센터",
   },
 
+  // 폼 제출 연동 — 상담신청 폼이 POST할 엔드포인트 (intake Lambda / API Gateway)
+  // 비워 두면 폼은 데모(검증 후 완료 메시지)로 동작합니다.
+  // 엔드포인트를 넣으면 intake Lambda → SQS → consumer Lambda → Slack 채널로 신청이 전송됩니다.
+  forms: {
+    applyEndpoint: "https://tdrx2g3l6b.execute-api.ap-northeast-2.amazonaws.com/",
+  },
+
   blog: {
     title: "오피스넷·인터넷전화 가이드",
     description:

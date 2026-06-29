@@ -86,10 +86,13 @@ permalink: /apply/
           </div>
         </div>
 
-        <!-- TODO(전송 연결): action 속성에 Formsubmit/Formspree 엔드포인트를 넣으면 실제 전송됩니다.
-             예) action="https://formsubmit.co/받을이메일" method="POST" -->
-        <form id="apply-form" class="order-form" novalidate>
+        <!-- 전송: site.forms.applyEndpoint(Lambda) 로 POST → Slack 채널 알림.
+             비어 있으면 데모(검증 후 완료 화면)로 동작합니다. -->
+        <form id="apply-form" class="order-form" novalidate data-endpoint="{{ site.forms.applyEndpoint }}">
           <p class="order-form-lead">위 조건으로 신청합니다. 연락처를 남겨주시면 담당자가 사은품·일정을 확정해 연락드립니다.</p>
+          <p class="hp-field" aria-hidden="true">
+            <label>이 칸은 비워 두세요 <input type="text" name="company_url" tabindex="-1" autocomplete="off" /></label>
+          </p>
           <div class="field">
             <label for="f-name">이름 / 업체명 <span class="req">*</span></label>
             <input type="text" id="f-name" name="name" placeholder="홍길동 / OO상사" required />

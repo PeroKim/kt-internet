@@ -6,7 +6,8 @@
     "start": "eleventy --serve",
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "clean": "rimraf _site"
+    "clean": "rimraf _site",
+    "deploy": "npm run build && aws s3 sync _site s3://kt-internet --delete && aws cloudfront create-invalidation --distribution-id EKWCKYGUZW9G6 --paths \"/*\""
   },
   "license": "MIT",
   "devDependencies": {
