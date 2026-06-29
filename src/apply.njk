@@ -22,7 +22,7 @@ permalink: /apply/
           <h3><span class="num">1</span> 인터넷 속도 <small class="step-tag">선택 (필요 시)</small></h3>
           <div class="option-cards" data-group="internet">
             {% for p in products.internet %}
-            <button type="button" class="opt-card" data-id="{{ p.id }}" data-fee="{{ p.monthlyFee }}" data-gift="{{ p.baseGift }}">
+            <button type="button" class="opt-card" data-id="{{ p.id }}" data-fee="{{ p.monthlyFee }}" data-gift="{{ p.baseGift }}" data-discount="{{ p.bundleDiscount }}">
               <span class="opt-badge">{{ p.badge }}</span>
               <span class="opt-name">{{ p.name }}</span>
               <span class="opt-speed">{{ p.speed }}</span>
@@ -38,7 +38,7 @@ permalink: /apply/
           <label class="toggle-row">
             <input type="checkbox" id="centrix-toggle" />
             <span class="toggle-ui"></span>
-            <span class="toggle-label">인터넷전화 신청 <small>회선당 사은품, 인터넷과 결합 시 보너스 추가</small></span>
+            <span class="toggle-label">인터넷전화 신청 <small>회선당 사은품, 인터넷과 결합 시 보너스·요금 할인 추가</small></span>
           </label>
           <div class="stepper" id="centrix-lines" hidden>
             <span>회선 수</span>

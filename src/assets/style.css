@@ -222,6 +222,7 @@ section { padding: 88px 0; }
 .rl-sub { color: #aebcd4; font-size: .78rem; }
 .rl-gift { font-weight: 900; color: var(--teal); font-size: .98rem; }
 .rl-fee { font-weight: 700; color: #c7d2e4; font-size: .9rem; white-space: nowrap; }
+.rl-discount { font-weight: 900; color: #7fd4ff; font-size: .92rem; white-space: nowrap; }
 .result-empty { color: #aebcd4; font-size: .9rem; justify-content: center !important; }
 .result-monthly { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .result-monthly span { color: #aebcd4; font-weight: 500; }

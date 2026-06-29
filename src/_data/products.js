@@ -8,6 +8,7 @@ const internet = [
     speed: "100Mbps",
     monthlyFee: 28000,
     baseGift: 90000,
+    bundleDiscount: 4800, // 인터넷전화 결합 시 월 요금 할인
     badge: "소호·소형 매장",
     desc: "인터넷 검색·이메일·카드결제(POS)·소형 CCTV 정도면 충분한 1~5인 소규모 사무실·매장용 기본형입니다.",
   },
@@ -17,6 +18,7 @@ const internet = [
     speed: "500Mbps",
     monthlyFee: 40000,
     baseGift: 140000,
+    bundleDiscount: 6000, // 인터넷전화 결합 시 월 요금 할인
     badge: "인기",
     desc: "여러 대의 PC와 CCTV·POS를 함께 쓰고 화상회의·클라우드 업무가 잦은 일반 사무실에 가장 많이 선택하는 속도입니다.",
   },
@@ -26,6 +28,7 @@ const internet = [
     speed: "1Gbps",
     monthlyFee: 45000,
     baseGift: 140000,
+    bundleDiscount: 6500, // 인터넷전화 결합 시 월 요금 할인
     badge: "추천",
     desc: "대용량 파일 전송·클라우드 백업·다회선 환경을 위한 1Gbps. 베이직과 요금 차이가 크지 않아 넉넉한 속도를 원할 때 추천합니다.",
   },

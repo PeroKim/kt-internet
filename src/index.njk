@@ -56,7 +56,7 @@ description: 직접 눌러서 KT 오피스넷·인터넷전화(센트릭스) 신
           <h3><span class="num">1</span> 인터넷 속도 <small class="step-tag">선택 (필요 시)</small></h3>
           <div class="option-cards" data-group="internet">
             {% for p in products.internet %}
-            <button type="button" class="opt-card" data-id="{{ p.id }}" data-fee="{{ p.monthlyFee }}" data-gift="{{ p.baseGift }}">
+            <button type="button" class="opt-card" data-id="{{ p.id }}" data-fee="{{ p.monthlyFee }}" data-gift="{{ p.baseGift }}" data-discount="{{ p.bundleDiscount }}">
               <span class="opt-badge">{{ p.badge }}</span>
               <span class="opt-name">{{ p.name }}</span>
               <span class="opt-speed">{{ p.speed }}</span>
@@ -72,7 +72,7 @@ description: 직접 눌러서 KT 오피스넷·인터넷전화(센트릭스) 신
           <label class="toggle-row">
             <input type="checkbox" id="centrix-toggle" />
             <span class="toggle-ui"></span>
-            <span class="toggle-label">인터넷전화 신청 <small>회선당 사은품, 인터넷과 결합 시 보너스 추가</small></span>
+            <span class="toggle-label">인터넷전화 신청 <small>회선당 사은품, 인터넷과 결합 시 보너스·요금 할인 추가</small></span>
           </label>
           <div class="stepper" id="centrix-lines" hidden>
             <span>회선 수</span>
@@ -156,7 +156,7 @@ description: 직접 눌러서 KT 오피스넷·인터넷전화(센트릭스) 신
         <li>{{ f }}</li>
         {% endfor %}
       </ul>
-      <p class="centrix-gift">인터넷과 결합하면 <strong>추가 {{ products.bundleBonus | won }}원</strong> 현금 사은품까지!</p>
+      <p class="centrix-gift">인터넷과 결합하면 <strong>추가 {{ products.bundleBonus | won }}원</strong> 현금 사은품 + <strong>월 요금 결합 할인</strong>까지!</p>
       <a class="btn btn-primary" href="#calculator">인터넷전화 사은품 계산하기</a>
       <a class="btn btn-outline" href="/apply/" style="margin-left:8px;">상담신청</a>
     </div>

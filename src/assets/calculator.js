@@ -46,6 +46,7 @@
       id: card.dataset.id,
       fee: Number(card.dataset.fee),
       gift: Number(card.dataset.gift),
+      discount: Number(card.dataset.discount) || 0,
       name: card.querySelector(".opt-name").textContent,
     };
     if (doRender) render();
@@ -219,7 +220,7 @@
       });
     }
 
-    // 결합 보너스 (인터넷 + 센트릭스 둘 다 선택했을 때만)
+    // 결합 보너스 + 결합 할인 (인터넷 + 센트릭스 둘 다 선택했을 때만)
     if (state.internet && state.centrixOn) {
       totalGift += DATA.bundleBonus;
       lines.push({
@@ -227,6 +228,16 @@
         sub: "추가 현금",
         gift: DATA.bundleBonus,
       });
+
+      // 결합 할인 — 월 요금에서 차감 (요금제별 금액)
+      if (state.internet.discount > 0) {
+        totalMonthly -= state.internet.discount;
+        lines.push({
+          label: "인터넷 + 전화 결합 할인",
+          discount: true,
+          monthly: state.internet.discount,
+        });
+      }
     }
 
     // 센트릭스 부가 옵션 (월 요금만, 캐시백 없음)
@@ -253,7 +264,10 @@
       breakdownEl.innerHTML = lines
         .map(function (l) {
           var subHtml, rightHtml;
-          if (l.addon) {
+          if (l.discount) {
+            subHtml = '<span class="rl-sub">월 요금 할인</span>';
+            rightHtml = '<span class="rl-discount">월 −' + won(l.monthly) + "원</span>";
+          } else if (l.addon) {
             subHtml = '<span class="rl-sub">부가 옵션 · 사은품 미해당</span>';
             rightHtml = '<span class="rl-fee">월 ' + won(l.monthly) + "원</span>";
           } else {
