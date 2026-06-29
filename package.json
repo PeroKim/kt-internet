@@ -1,0 +1,15 @@
+{
+  "name": "kt-internet",
+  "version": "1.0.0",
+  "description": "KT 오피스넷·센트릭스 현금 사은품 비교 사이트 (아정당 컨셉)",
+  "scripts": {
+    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rimraf _site"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

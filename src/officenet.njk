@@ -1,0 +1,47 @@
+---
+layout: base.njk
+title: KT 오피스넷 요금제와 현금 사은품
+description: KT 오피스넷 속도별 월 요금과 신규/이전 설치 현금 사은품 안내.
+permalink: /officenet/
+---
+
+<section class="page-hero">
+  <div class="wrap">
+    <h1>오피스넷</h1>
+    <p>사무실을 위한 KT 비즈니스 인터넷. 속도별 요금과 현금 사은품을 확인하세요.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap prose">
+    <h2>속도별 요금 · 현금 사은품</h2>
+    <table class="spec-table">
+      <thead>
+        <tr><th>요금제</th><th>속도</th><th>월 요금</th><th>현금 사은품(3년)</th></tr>
+      </thead>
+      <tbody>
+        {% for p in products.internet %}
+        <tr>
+          <td><strong>{{ p.name }}</strong></td>
+          <td>{{ p.speed }}</td>
+          <td>{{ p.monthlyFee | won }}원</td>
+          <td class="cash">{{ p.baseGift | won }}원</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>오피스넷은 어떤 인터넷인가요?</h2>
+    <p>오피스넷은 사업장·사무실을 위한 KT 비즈니스 인터넷 상품입니다. 다수의 PC, POS, CCTV, 프린터를 안정적으로 연결할 수 있도록 가정용보다 안정성과 지원이 강화되어 있습니다.</p>
+    <ul>
+      <li>소규모 매장은 <strong>슬림(100M)·베이직(500M)</strong>, 일반 사무실은 <strong>베이직(500M)·에센스(1G)</strong>를 가장 많이 선택합니다.</li>
+      <li>클라우드·대용량 업로드가 많다면 <strong>오피스넷 에센스(1G)</strong>를 권장합니다.</li>
+      <li>신규뿐 아니라 <strong>타사 이전</strong> 설치도 현금 사은품 대상입니다.</li>
+    </ul>
+
+    <p style="margin-top:30px;">
+      <a class="btn btn-primary btn-lg" href="/#calculator">💰 내 사은품 계산하기</a>
+      <a class="btn btn-outline btn-lg" href="/apply/">상담신청</a>
+    </p>
+  </div>
+</section>

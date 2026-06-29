@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  {%- set metaTitle = (title ~ " | " ~ site.shortName) if title else (site.name) %}
+  {%- set metaDesc = description or site.description %}
+  {%- set canonical = site.url ~ page.url %}
+  {%- set ogImg = site.url ~ (ogImage or site.ogImage) %}
+
+  <title>{{ metaTitle }}</title>
+  <meta name="description" content="{{ metaDesc }}" />
+  <meta name="keywords" content="{{ keywords or site.keywords }}" />
+  <meta name="author" content="{{ site.company.name }}" />
+  <meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow, max-image-preview:large, max-snippet:-1{% endif %}" />
+  <link rel="canonical" href="{{ canonical }}" />
+  <meta name="theme-color" content="{{ site.themeColor }}" />
+  {%- if site.verification.google %}<meta name="google-site-verification" content="{{ site.verification.google }}" />{% endif %}
+  {%- if site.verification.naver %}<meta name="naver-site-verification" content="{{ site.verification.naver }}" />{% endif %}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="{{ ogType or 'website' }}" />
+  <meta property="og:site_name" content="{{ site.name }}" />
+  <meta property="og:locale" content="{{ site.locale }}" />
+  <meta property="og:title" content="{{ metaTitle }}" />
+  <meta property="og:description" content="{{ metaDesc }}" />
+  <meta property="og:url" content="{{ canonical }}" />
+  <meta property="og:image" content="{{ ogImg }}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="{{ site.name }}" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ metaTitle }}" />
+  <meta name="twitter:description" content="{{ metaDesc }}" />
+  <meta name="twitter:image" content="{{ ogImg }}" />
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/style.css" />
+
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ site.company.name | json | safe }},
+    "alternateName": {{ site.name | json | safe }},
+    "url": {{ site.url | json | safe }},
+    "description": {{ site.description | json | safe }},
+    "areaServed": "KR"
+  }
+  </script>
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ site.name | json | safe }},
+    "url": {{ site.url | json | safe }},
+    "inLanguage": "ko-KR",
+    "description": {{ site.description | json | safe }}
+  }
+  </script>
+  {%- if page.url == "/" %}
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for item in faq %}
+      {
+        "@type": "Question",
+        "name": {{ item.q | json | safe }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | json | safe }} }
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  <!-- JSON-LD: Product (오피스넷 인터넷 요금제) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "KT 오피스넷 비즈니스 인터넷",
+    "brand": { "@type": "Brand", "name": "KT" },
+    "category": "비즈니스 인터넷",
+    "description": {{ site.description | json | safe }},
+    "url": {{ (site.url ~ "/officenet/") | json | safe }},
+    "offers": [
+      {%- for p in products.internet %}
+      {
+        "@type": "Offer",
+        "name": {{ p.name | json | safe }},
+        "description": {{ (p.speed ~ " 비즈니스 인터넷, 현금 사은품 " ~ (p.baseGift | won) ~ "원") | json | safe }},
+        "price": "{{ p.monthlyFee }}",
+        "priceCurrency": "KRW",
+        "availability": "https://schema.org/InStock",
+        "url": {{ (site.url ~ "/officenet/") | json | safe }}
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  {%- else %}
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "홈", "item": {{ (site.url ~ "/") | json | safe }} },
+      { "@type": "ListItem", "position": 2, "name": {{ title | json | safe }}, "item": {{ canonical | json | safe }} }
+    ]
+  }
+  </script>
+  {%- endif %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">kt</span>
+        <span class="brand-text">오피스넷·인터넷전화<small>현금 사은품 비교</small></span>
+      </a>
+      <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav">
+        <a href="/#calculator">사은품 계산기</a>
+        <a href="/officenet/">오피스넷</a>
+        <a href="/centrix/">인터넷전화</a>
+        <a href="/guide/">설치 안내</a>
+        <a class="nav-cta" href="/apply/">상담신청</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-cols">
+        <div>
+          <strong>KT 오피스넷·인터넷전화 안내센터</strong>
+          <p>KT 공식 비즈니스 인터넷·인터넷전화 신규/이전 설치 상담</p>
+          <p><a href="/apply/">온라인 상담신청</a> · 평일 09:00~20:00 접수</p>
+        </div>
+        <div class="foot-note">
+          <p>※ 표기된 현금 사은품(캐시백)은 약정 3년·신규가입 기준 예시이며, 결합 구성·지역·프로모션에 따라 달라질 수 있습니다. 정확한 금액은 상담 시 확정됩니다.</p>
+          <p>※ 캐시백 정책은 <b>매월 변경될 수 있으며</b>, 캐시백은 <b>실제 개통 시점의 정책</b>에 따라 <b>KT 대리점에서 직접 지급</b>됩니다.</p>
+          <p>※ 개통 후 <b>1년 이내 해지 시</b> 사은품 반환 의무에 따라 <b>환수금이 발생</b>할 수 있습니다.</p>
+          <p>본 사이트는 KT 상품 판매 안내 페이지입니다.</p>
+        </div>
+      </div>
+      <div class="copy">© {{ '2026' }} 오피스넷·인터넷전화 안내센터. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <a class="floating-call" href="/apply/" aria-label="상담신청">✏️ 상담신청</a>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/calculator.js" defer></script>
+</body>
+</html>

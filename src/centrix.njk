@@ -1,0 +1,52 @@
+---
+layout: base.njk
+title: KT 인터넷전화(센트릭스) 요금과 현금 사은품
+description: KT 인터넷전화(센트릭스) 회선당 요금, 기능, 결합 현금 사은품 안내.
+permalink: /centrix/
+---
+
+<section class="page-hero">
+  <div class="wrap">
+    <h1>KT 인터넷전화 <span style="font-weight:500;opacity:.8;">(센트릭스)</span></h1>
+    <p>대표번호·내선·녹취를 인터넷으로 묶는 기업용 전화 서비스. <b>인터넷 없이 인터넷전화만 신청</b>도 가능합니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap prose">
+    <div class="solo-callout">
+      <strong>📞 인터넷 없이 인터넷전화만 신청 가능</strong>
+      <p>기존 인터넷은 그대로 두고 인터넷전화(센트릭스)만 신규로 신청하실 수 있습니다. 이 경우에도 <b>회선당 {{ products.centrix.giftPerLine | won }}원</b> 현금 사은품이 지급됩니다. KT 오피스넷 인터넷과 함께 결합하면 <b>결합 보너스 {{ products.bundleBonus | won }}원</b>이 추가됩니다.</p>
+    </div>
+
+    <h2>인터넷전화(센트릭스) 요금 · 사은품</h2>
+    <table class="spec-table">
+      <tbody>
+        <tr><th>약정 기간</th><td>3년</td></tr>
+        <tr><th>회선당 월 기본료</th><td>{{ products.centrix.monthlyPerLine | won }}원</td></tr>
+        <tr><th>회선당 현금 사은품</th><td class="cash">{{ products.centrix.giftPerLine | won }}원</td></tr>
+        <tr><th>인터넷 결합 보너스</th><td class="cash">+ {{ products.bundleBonus | won }}원 <small>(인터넷 결합 시)</small></td></tr>
+        <tr><th>설치비</th><td>신규 설치 시 면제</td></tr>
+      </tbody>
+    </table>
+
+    <h2>주요 기능</h2>
+    <ul>
+      {% for f in products.centrix.features %}
+      <li>{{ f }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>이런 사업장에 좋아요</h2>
+    <ul>
+      <li>전화 문의가 많아 <strong>대표번호 + 여러 내선</strong>이 필요한 사무실</li>
+      <li>상담 품질 관리를 위해 <strong>통화 녹취</strong>가 필요한 곳</li>
+      <li>외근·재택이 많아 <strong>스마트폰으로 회사번호</strong>를 쓰고 싶은 팀</li>
+    </ul>
+
+    <p style="margin-top:30px;">
+      <a class="btn btn-primary btn-lg" href="/#calculator">💰 인터넷전화 사은품 계산하기</a>
+      <a class="btn btn-outline btn-lg" href="/apply/">인터넷전화만 신청하기</a>
+    </p>
+  </div>
+</section>

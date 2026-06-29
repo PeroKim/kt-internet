@@ -1,0 +1,218 @@
+---
+layout: base.njk
+title: KT 오피스넷·인터넷전화 현금 사은품 계산기
+description: 직접 눌러서 KT 오피스넷·인터넷전화(센트릭스) 신규/이전 설치 현금 사은품을 바로 확인하세요. 회선·결합까지 실시간 계산, 인터넷전화만 신청도 가능합니다.
+---
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <div class="hero-tags">
+        <span class="hero-tag">#오피스넷</span>
+        <span class="hero-tag">#인터넷전화</span>
+        <span class="hero-tag">#현금 사은품</span>
+        <span class="hero-tag">#신규·이전 설치</span>
+      </div>
+      <h1>직접 눌러보세요.<br /><em>현금 사은품</em>이 바로 보입니다.</h1>
+      <p class="hero-sub">KT 오피스넷 인터넷부터 인터넷전화(센트릭스)까지.<br />필요한 상품과 회선만 고르면 받을 수 있는 <b>현금 사은품</b>이 실시간으로 계산됩니다. <b>인터넷전화만 신청</b>해도 됩니다.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#calculator">💰 내 사은품 계산하기</a>
+        <a class="btn btn-ghost btn-lg" href="/apply/">상담신청 바로가기</a>
+      </div>
+      <ul class="hero-trust">
+        <li>✅ KT 공식 상품</li>
+        <li>✅ 신규·이전 설치</li>
+        <li>✅ 현금 사은품 지급</li>
+      </ul>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-card">
+        <span class="badge-top">💰 현금 사은품 합산 구조</span>
+        <ul class="badge-list">
+          <li><span>인터넷 최대</span><strong>140,000원</strong></li>
+          <li class="badge-op">＋</li>
+          <li><span>결합 보너스</span><strong>{{ products.bundleBonus | won }}원</strong></li>
+          <li class="badge-op">＋</li>
+          <li><span>인터넷전화 회선당</span><strong>{{ products.centrix.giftPerLine | won }}원</strong></li>
+        </ul>
+        <p class="badge-foot">회선이 늘수록 캐시백도 커집니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculator" class="calc">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cashback Calculator</span>
+      <h2>현금 사은품 계산기</h2>
+      <p>인터넷·인터넷전화 중 <b>필요한 것만</b> 선택하세요. 인터넷전화만 신청해도 되고, 받을 현금 사은품이 바로 계산됩니다.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="calc-controls">
+
+        <div class="calc-step">
+          <h3><span class="num">1</span> 인터넷 속도 <small class="step-tag">선택 (필요 시)</small></h3>
+          <div class="option-cards" data-group="internet">
+            {% for p in products.internet %}
+            <button type="button" class="opt-card" data-id="{{ p.id }}" data-fee="{{ p.monthlyFee }}" data-gift="{{ p.baseGift }}">
+              <span class="opt-badge">{{ p.badge }}</span>
+              <span class="opt-name">{{ p.name }}</span>
+              <span class="opt-speed">{{ p.speed }}</span>
+              <span class="opt-fee">월 {{ p.monthlyFee | won }}원</span>
+            </button>
+            {% endfor %}
+          </div>
+          <p class="opt-hint">선택한 속도를 다시 누르면 해제됩니다. (인터넷 없이 인터넷전화만 신청 가능)</p>
+        </div>
+
+        <div class="calc-step">
+          <h3><span class="num">2</span> 인터넷전화(센트릭스) <small class="step-tag">단독 신청 가능</small></h3>
+          <label class="toggle-row">
+            <input type="checkbox" id="centrix-toggle" />
+            <span class="toggle-ui"></span>
+            <span class="toggle-label">인터넷전화 신청 <small>회선당 사은품, 인터넷과 결합 시 보너스 추가</small></span>
+          </label>
+          <div class="stepper" id="centrix-lines" hidden>
+            <span>회선 수</span>
+            <button type="button" class="step-btn" data-step="-1">−</button>
+            <output id="line-count">2</output>
+            <button type="button" class="step-btn" data-step="1">+</button>
+            <span class="step-hint">회선당 월 {{ products.centrix.monthlyPerLine | won }}원 · 사은품 {{ products.centrix.giftPerLine | won }}원</span>
+          </div>
+          <div class="addon-list" id="centrix-addons" hidden>
+            <p class="addon-title">함께 신청 가능한 번호 옵션 <small>(선택)</small></p>
+            {% for a in products.centrix.addons %}
+            <label class="addon-row">
+              <input type="checkbox" class="addon-check" data-addon="{{ a.id }}" data-monthly="{{ a.monthly }}" />
+              <span class="addon-info"><b>{{ a.name }}</b><small>월 {{ a.monthly | won }}원</small></span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="calc-result" id="result-panel">
+        <div class="result-top">
+          <span class="result-label">예상 현금 사은품</span>
+          <div class="result-amount"><strong id="gift-amount">0</strong><span>원</span></div>
+        </div>
+        <ul class="result-lines" id="result-breakdown">
+          <li class="result-empty">인터넷 또는 인터넷전화를 선택하면 사은품이 계산됩니다.</li>
+        </ul>
+        <div class="result-monthly">
+          <span>예상 월 납부액</span>
+          <strong id="monthly-amount">0원</strong>
+        </div>
+        <a class="btn btn-primary btn-block" href="/apply/">이 조건으로 신청하기 →</a>
+        <p class="result-fine">* 약정 3년·신규가입 기준 예시. 캐시백 정책은 매월 변경될 수 있으며, 실제 개통 시점 정책에 따라 KT 대리점에서 직접 지급됩니다. 개통 후 1년 이내 해지 시 환수금이 발생할 수 있습니다.</p>
+      </aside>
+    </div>
+
+    <div class="calc-notice">
+      <strong>⚠️ 캐시백 안내사항</strong>
+      <ul>
+        <li>캐시백 정책은 <b>매월 변경될 수 있습니다.</b></li>
+        <li>캐시백은 <b>실제 개통 시점의 정책</b>에 따라 <b>KT 대리점에서 직접 지급</b>됩니다.</li>
+        <li>개통 후 <b>1년 이내 해지 시</b> 사은품 반환 의무에 따라 <b>환수금이 발생</b>할 수 있습니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Plans</span>
+      <h2>오피스넷 인터넷 요금제</h2>
+      <p>사무실 규모에 맞춰 속도를 고르세요. 신규·이전 설치 모두 현금 사은품이 지급됩니다.</p>
+    </div>
+    <div class="plan-cards">
+      {% for p in products.internet %}
+      <div class="plan-card{% if p.badge == '추천' %} is-featured{% endif %}">
+        <span class="plan-tag">{{ p.badge }}</span>
+        <h3>{{ p.name }}</h3>
+        <p class="plan-speed">{{ p.speed }}</p>
+        <p class="plan-fee">월 <strong>{{ p.monthlyFee | won }}</strong>원</p>
+        <p class="plan-gift">현금 사은품 <strong>{{ p.baseGift | won }}원</strong></p>
+        <p class="plan-desc">{{ p.desc }}</p>
+        <a class="btn btn-outline btn-block" href="#calculator">사은품 계산하기</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="centrix-sec">
+  <div class="wrap centrix-inner">
+    <div class="centrix-copy">
+      <span class="hero-eyebrow">KT 인터넷전화 · 센트릭스</span>
+      <h2>회사 전화, 인터넷으로 묶고<br />회선마다 <em>현금 사은품</em>까지.</h2>
+      <p>{{ products.centrix.desc }} 회선당 월 {{ products.centrix.monthlyPerLine | won }}원, 회선마다 {{ products.centrix.giftPerLine | won }}원 현금 사은품을 드립니다. <b>인터넷 없이 인터넷전화만 신청</b>해도 됩니다.</p>
+      <ul class="check-list">
+        {% for f in products.centrix.features %}
+        <li>{{ f }}</li>
+        {% endfor %}
+      </ul>
+      <p class="centrix-gift">인터넷과 결합하면 <strong>추가 {{ products.bundleBonus | won }}원</strong> 현금 사은품까지!</p>
+      <a class="btn btn-primary" href="#calculator">인터넷전화 사은품 계산하기</a>
+      <a class="btn btn-outline" href="/apply/" style="margin-left:8px;">상담신청</a>
+    </div>
+    <div class="centrix-visual">
+      <div class="phone-card">
+        <div class="phone-head">대표번호 <b>02-0000-0000</b></div>
+        <ul>
+          <li>내선 101 · 영업팀</li>
+          <li>내선 102 · 고객지원</li>
+          <li>내선 103 · 회계팀</li>
+          <li>📱 스마트폰 앱 연동</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>현금 사은품 받는 순서</h2>
+      <p>복잡하지 않습니다. 신청부터 입금까지 4단계면 끝.</p>
+    </div>
+    <ol class="step-flow">
+      <li><span class="step-no">1</span><h4>온라인 상담신청</h4><p>원하는 상품·회선을 남겨주시면 담당자가 사은품 금액을 확정해 드립니다.</p></li>
+      <li><span class="step-no">2</span><h4>방문 설치 예약</h4><p>희망 날짜에 KT 기사님이 방문해 설치를 완료합니다.</p></li>
+      <li><span class="step-no">3</span><h4>개통 확인</h4><p>인터넷·전화가 정상 개통되었는지 확인합니다.</p></li>
+      <li><span class="step-no">4</span><h4>현금 사은품 입금</h4><p>개통 확인 후 사은품을 등록하신 계좌로 현금 입금해 드립니다.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>자주 묻는 질문</h2>
+    </div>
+    <div class="faq-list">
+      {% for item in faq %}
+      <details{% if loop.first %} open{% endif %}><summary>{{ item.q }}</summary><p>{{ item.a }}</p></details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-inner">
+    <h2>마음에 드는 조건을 찾으셨나요?</h2>
+    <p>계산기에서 고른 조건 그대로, 신청 페이지에서 바로 상담신청 하실 수 있습니다.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="/apply/">✏️ 상담신청 하러가기</a>
+      <a class="btn btn-ghost btn-lg" href="#calculator">사은품 다시 계산</a>
+    </div>
+  </div>
+</section>
+
+<script id="product-data" type="application/json">{{ products | json | safe }}</script>
