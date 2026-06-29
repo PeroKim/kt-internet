@@ -40,7 +40,7 @@ module.exports = {
 
   // 검색엔진 소유 확인 (값 발급 후 채우기)
   verification: {
-    google: "",
+    google: "n5m0hJypvTNA3etpgn9E1i2CpQxQ3duDU2Fr_wBXXl4",
     naver: "",
   },
 };
