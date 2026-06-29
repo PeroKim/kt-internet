@@ -345,14 +345,23 @@ section { padding: 88px 0; }
 .apply-done p { color: var(--muted); }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--bg-navy); color: #c5cce0; padding: 48px 0 32px; margin-top: auto; }
-.foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.site-footer strong { color: #fff; font-size: 1.05rem; }
-.site-footer p { margin: 8px 0; font-size: .9rem; line-height: 1.7; color: #9aa4c4; }
-.site-footer a { color: #fff; font-weight: 700; }
-.foot-note p { font-size: .8rem; color: #7d88a8; }
+.site-footer { background: var(--bg-navy); color: #c5cce0; margin-top: auto; }
+.footer-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 48px 0 36px; }
+.brand--footer { margin-bottom: 14px; }
+.brand--footer .brand-text { color: #fff; }
+.brand--footer .brand-text small { color: #9aa4c4; }
+.footer-brand > p { margin: 0 0 10px; font-size: .9rem; line-height: 1.7; color: #9aa4c4; max-width: 520px; }
+.footer-contact a { color: #fff; font-weight: 700; }
+.foot-note p { margin: 8px 0; font-size: .8rem; color: #7d88a8; line-height: 1.7; }
 .foot-note b { color: #c5cce0; }
-.copy { margin-top: 30px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); font-size: .82rem; color: #7d88a8; }
+
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: 24px 0; }
+.footer-company { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin-bottom: 12px; }
+.footer-company-name { margin: 0; font-weight: 700; color: #c5cce0; font-size: .9rem; }
+.footer-company-info { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; }
+.footer-company-info li { font-size: .84rem; color: #9aa4c4; }
+.footer-company-info li span { color: #6b768f; margin-right: 4px; }
+.footer-disclaimer { margin: 0; font-size: .8rem; color: #7d88a8; }
 
 /* ---------- Floating call ---------- */
 .floating-call {
@@ -402,7 +411,7 @@ section { padding: 88px 0; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 920px) {
-  .hero-inner, .calc-grid, .centrix-inner, .foot-cols, .apply2-grid { grid-template-columns: 1fr; }
+  .hero-inner, .calc-grid, .centrix-inner, .footer-inner, .apply2-grid { grid-template-columns: 1fr; }
   .hero-badge { justify-self: start; }
   .plan-cards, .step-flow { grid-template-columns: repeat(2, 1fr); }
   .calc-result, .order-card { position: static; }

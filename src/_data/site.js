@@ -13,9 +13,12 @@ module.exports = {
   ogImage: "/assets/og-default.svg",
   themeColor: "#e6002d",
 
+  // 사업자 정보 (운영사)
   company: {
-    name: "오피스넷·인터넷전화 안내센터",
-    address: "대한민국",
+    name: "주식회사 엘다인", // 상호
+    ceo: "오문숙", // 대표자
+    bizNo: "282-81-03312", // 사업자등록번호
+    address: "경기도 고양시 덕양구 지정로 15, 307호", // 소재지
   },
 
   author: {

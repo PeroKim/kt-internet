@@ -152,21 +152,34 @@
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
-      <div class="foot-cols">
-        <div>
-          <strong>KT 오피스넷·인터넷전화 안내센터</strong>
-          <p>KT 공식 비즈니스 인터넷·인터넷전화 신규/이전 설치 상담</p>
-          <p><a href="/apply/">온라인 상담신청</a> · 평일 09:00~20:00 접수</p>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <div class="brand brand--footer">
+          <span class="brand-mark">kt</span>
+          <span class="brand-text">오피스넷·인터넷전화<small>현금 사은품 안내</small></span>
         </div>
-        <div class="foot-note">
-          <p>※ 표기된 현금 사은품(캐시백)은 약정 3년·신규가입 기준 예시이며, 결합 구성·지역·프로모션에 따라 달라질 수 있습니다. 정확한 금액은 상담 시 확정됩니다.</p>
-          <p>※ 캐시백 정책은 <b>매월 변경될 수 있으며</b>, 캐시백은 <b>실제 개통 시점의 정책</b>에 따라 <b>KT 대리점에서 직접 지급</b>됩니다.</p>
-          <p>※ 개통 후 <b>1년 이내 해지 시</b> 사은품 반환 의무에 따라 <b>환수금이 발생</b>할 수 있습니다.</p>
-          <p>본 사이트는 KT 상품 판매 안내 페이지입니다.</p>
-        </div>
+        <p>{{ site.description }}</p>
+        <p class="footer-contact"><a href="/apply/">온라인 상담신청</a> · 평일 09:00~20:00 접수</p>
       </div>
-      <div class="copy">© {{ '2026' }} 오피스넷·인터넷전화 안내센터. All rights reserved.</div>
+      <div class="foot-note">
+        <p>※ 표기된 현금 사은품(캐시백)은 약정 3년·신규가입 기준 예시이며, 결합 구성·지역·프로모션에 따라 달라질 수 있습니다. 정확한 금액은 상담 시 확정됩니다.</p>
+        <p>※ 캐시백 정책은 <b>매월 변경될 수 있으며</b>, 캐시백은 <b>실제 개통 시점의 정책</b>에 따라 <b>KT 대리점에서 직접 지급</b>됩니다.</p>
+        <p>※ 개통 후 <b>1년 이내 해지 시</b> 사은품 반환 의무에 따라 <b>환수금이 발생</b>할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="wrap">
+        <div class="footer-company">
+          <p class="footer-company-name">{{ site.company.name }}</p>
+          <ul class="footer-company-info">
+            <li><span>대표</span> {{ site.company.ceo }}</li>
+            <li><span>사업자등록번호</span> {{ site.company.bizNo }}</li>
+            <li><span>소재지</span> {{ site.company.address }}</li>
+          </ul>
+        </div>
+        <p class="footer-disclaimer">본 사이트는 KT 오피스넷·인터넷전화 상품 판매 안내 페이지입니다. © {% year %} {{ site.company.name }}</p>
+      </div>
     </div>
   </footer>
 
