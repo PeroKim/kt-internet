@@ -226,6 +226,8 @@ section { padding: 88px 0; }
 .result-empty { color: #aebcd4; font-size: .9rem; justify-content: center !important; }
 .result-monthly { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .result-monthly span { color: #aebcd4; font-weight: 500; }
+.result-monthly span small { font-size: .72rem; font-weight: 500; opacity: .85; }
+.plans-vat { text-align: center; color: var(--muted); font-size: .85rem; margin: 24px 0 0; line-height: 1.6; }
 .result-monthly strong { font-size: 1.4rem; font-weight: 900; }
 .result-fine { color: #8fa0bd; font-size: .72rem; margin: 12px 0 0; line-height: 1.6; }
 
