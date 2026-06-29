@@ -19,7 +19,7 @@ const internet = [
     monthlyFee: 40000,
     baseGift: 140000,
     bundleDiscount: 6000, // 인터넷전화 결합 시 월 요금 할인
-    badge: "인기",
+    badge: "추천",
     desc: "여러 대의 PC와 CCTV·POS를 함께 쓰고 화상회의·클라우드 업무가 잦은 일반 사무실에 가장 많이 선택하는 속도입니다.",
   },
   {
@@ -29,7 +29,7 @@ const internet = [
     monthlyFee: 45000,
     baseGift: 140000,
     bundleDiscount: 6500, // 인터넷전화 결합 시 월 요금 할인
-    badge: "추천",
+    badge: "고성능",
     desc: "대용량 파일 전송·클라우드 백업·다회선 환경을 위한 1Gbps. 베이직과 요금 차이가 크지 않아 넉넉한 속도를 원할 때 추천합니다.",
   },
 ];
