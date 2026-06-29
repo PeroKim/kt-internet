@@ -132,7 +132,7 @@
     try {
       saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
     } catch (e) { saved = null; }
-    if (!saved) return;
+    if (!saved) return false; // 저장된 상태 없음(첫 방문) → 기본값 적용 대상
 
     if (saved.lines) setLines(saved.lines, false);
     if (saved.centrixOn) {
@@ -146,6 +146,15 @@
         if (card.dataset.id === saved.internetId) selectInternet(card, false);
       });
     }
+    return true; // 저장된 상태를 복원함 → 사용자의 이전 선택 유지
+  }
+
+  // 기본 인터넷 선택 (첫 방문 시): 오피스넷 베이직
+  var DEFAULT_INTERNET_ID = "officenet-basic";
+  function selectDefaultInternet() {
+    internetCards.forEach(function (card) {
+      if (card.dataset.id === DEFAULT_INTERNET_ID) selectInternet(card, false);
+    });
   }
 
   // 선택된 센트릭스 부가 옵션 목록
@@ -412,6 +421,7 @@
   }
 
   // ---------- 초기화 ----------
-  restoreState();
+  var restored = restoreState();
+  if (!restored) selectDefaultInternet(); // 첫 방문이면 베이직을 기본 선택
   render();
 })();
