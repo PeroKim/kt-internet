@@ -1,0 +1,104 @@
+---
+layout: base.njk
+ogType: article
+---
+{%- set postImg = site.url ~ (ogImage or image or site.ogImage) %}
+{%- set postAuthor = author or site.author.name %}
+
+<article class="post">
+  <header class="post-hero">
+    <div class="wrap wrap--narrow">
+      <nav class="breadcrumb" aria-label="현재 위치">
+        <a href="/">홈</a>
+        <span aria-hidden="true">›</span>
+        <a href="/blog/">블로그</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{{ title }}</span>
+      </nav>
+
+      <div class="post-header">
+        {%- if topics %}
+        <div class="post-tags">
+          {%- for t in topics %}<a class="post-tag post-tag--link" href="/blog/tag/{{ t | topicSlug }}/">{{ t }}</a>{% endfor %}
+        </div>
+        {%- endif %}
+        <h1>{{ title }}</h1>
+        {%- if description %}<p class="post-summary">{{ description }}</p>{% endif %}
+        <div class="post-meta">
+          <span class="post-author">{{ postAuthor }}</span>
+          <span class="post-meta-sep" aria-hidden="true">·</span>
+          <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate }}</time>
+          <span class="post-meta-sep" aria-hidden="true">·</span>
+          <span class="post-readtime">{{ content | readingTime }} 읽기</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap wrap--narrow">
+    {%- set bodyHtml = content | addHeadingIds %}
+    {{ bodyHtml | toc | safe }}
+
+    <div class="post-body">
+      {{ bodyHtml | safe }}
+    </div>
+
+    <footer class="post-footer">
+      <div class="post-cta">
+        <h2>현금 사은품, 직접 눌러서 확인하세요</h2>
+        <p>오피스넷 인터넷·인터넷전화(센트릭스)를 조합하면 받을 수 있는 현금 사은품이 실시간으로 계산됩니다. 인터넷전화만 신청도 가능합니다.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="/#calculator">💰 사은품 계산하기</a>
+          <a class="btn btn-ghost" href="/apply/">상담신청</a>
+        </div>
+      </div>
+
+      <a class="post-back" href="/blog/">← 블로그 목록으로</a>
+    </footer>
+
+    {%- set related = collections.post | newest | exceptUrl(page.url) | limit(3) %}
+    {%- if related.length %}
+    <section class="post-related" aria-labelledby="related-heading">
+      <h2 id="related-heading">다른 글도 읽어보세요</h2>
+      <ul class="post-related-list">
+        {%- for p in related %}
+        <li>
+          <a href="{{ p.url }}">
+            <span class="post-related-title">{{ p.data.title }}</span>
+            <time datetime="{{ p.date | isoDate }}">{{ p.date | readableDate }}</time>
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | json | safe }},
+  "description": {{ (description or site.description) | json | safe }},
+  "image": {{ postImg | json | safe }},
+  "datePublished": {{ (page.date | isoDate) | json | safe }},
+  "dateModified": {{ ((updated or page.date) | isoDate) | json | safe }},
+  "inLanguage": "ko-KR",
+  "url": {{ (site.url ~ page.url) | json | safe }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ (site.url ~ page.url) | json | safe }} },
+  {%- if topics %}
+  "keywords": {{ (topics | join(", ")) | json | safe }},
+  {%- endif %}
+  "author": {
+    "@type": "Organization",
+    "name": {{ postAuthor | json | safe }},
+    "url": {{ site.url | json | safe }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.company.name | json | safe }},
+    "logo": { "@type": "ImageObject", "url": {{ (site.url ~ site.ogImage) | json | safe }} }
+  }
+}
+</script>

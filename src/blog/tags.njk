@@ -1,0 +1,65 @@
+---
+pagination:
+  data: collections.topics
+  size: 1
+  alias: topic
+  addAllPagesToCollections: true
+layout: base.njk
+permalink: "/blog/tag/{{ topic.slug }}/"
+eleventyComputed:
+  title: "{{ topic.topic }} 글 모음"
+  description: "오피스넷·인터넷전화 블로그 '{{ topic.topic }}' 주제 글 {{ topic.posts.length }}개 — KT 사무실 인터넷·인터넷전화 도입과 현금 사은품 가이드를 모았습니다."
+noindex: true
+---
+
+<section class="page-hero">
+  <div class="wrap wrap--narrow">
+    <nav class="breadcrumb" aria-label="현재 위치">
+      <a href="/">홈</a>
+      <span aria-hidden="true">›</span>
+      <a href="/blog/">블로그</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">{{ topic.topic }}</span>
+    </nav>
+    <h1><span class="tag-hash" aria-hidden="true">#</span>{{ topic.topic }}</h1>
+    <p>'{{ topic.topic }}' 주제의 글 {{ topic.posts.length }}개</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap wrap--narrow">
+    <ul class="blog-list">
+      {%- for post in topic.posts %}
+      <li class="blog-card">
+        <a class="blog-card-link" href="{{ post.url }}">
+          {%- if post.data.topics %}
+          <div class="post-tags">
+            {%- for t in post.data.topics %}<span class="post-tag{% if t == topic.topic %} post-tag--current{% endif %}">{{ t }}</span>{% endfor %}
+          </div>
+          {%- endif %}
+          <h2 class="blog-card-title">{{ post.data.title }}</h2>
+          {%- if post.data.description %}<p class="blog-card-desc">{{ post.data.description }}</p>{% endif %}
+          <div class="post-meta">
+            <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+            <span class="post-meta-sep" aria-hidden="true">·</span>
+            <span class="post-readtime">{{ post.templateContent | readingTime }} 읽기</span>
+          </div>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+
+    {%- if collections.topics.length > 1 %}
+    <nav class="tag-cloud tag-cloud--more" aria-label="다른 주제">
+      <span class="tag-cloud-label">다른 주제</span>
+      {%- for tp in collections.topics %}
+      {%- if tp.slug != topic.slug %}
+      <a class="tag-chip" href="/blog/tag/{{ tp.slug }}/">{{ tp.topic }} <span class="tag-chip-count">{{ tp.posts.length }}</span></a>
+      {%- endif %}
+      {%- endfor %}
+    </nav>
+    {%- endif %}
+
+    <p class="tag-back-wrap"><a class="post-back" href="/blog/">← 블로그 전체 글</a></p>
+  </div>
+</section>

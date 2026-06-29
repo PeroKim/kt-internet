@@ -1,0 +1,79 @@
+---
+layout: base.njk
+title: 블로그
+permalink: /blog/
+eleventyComputed:
+  description: "{{ site.blog.description }}"
+---
+
+<section class="page-hero page-hero--blog">
+  <div class="wrap">
+    <h1>{{ site.blog.title }}</h1>
+    <p>{{ site.blog.description }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap wrap--narrow">
+    {%- if collections.topics.length %}
+    <nav class="tag-cloud tag-cloud--top" aria-label="주제별 글">
+      <span class="tag-cloud-label">주제별</span>
+      {%- for tp in collections.topics %}
+      <a class="tag-chip" href="/blog/tag/{{ tp.slug }}/">{{ tp.topic }} <span class="tag-chip-count">{{ tp.posts.length }}</span></a>
+      {%- endfor %}
+    </nav>
+    {%- endif %}
+
+    {%- set posts = collections.post | newest %}
+    {%- if posts.length %}
+    <ul class="blog-list">
+      {%- for post in posts %}
+      <li class="blog-card{% if loop.first %} blog-card--featured{% endif %}">
+        <a class="blog-card-link" href="{{ post.url }}">
+          {%- if post.data.topics %}
+          <div class="post-tags">
+            {%- for t in post.data.topics %}<span class="post-tag">{{ t }}</span>{% endfor %}
+          </div>
+          {%- endif %}
+          <h2 class="blog-card-title">{{ post.data.title }}</h2>
+          {%- if post.data.description %}<p class="blog-card-desc">{{ post.data.description }}</p>{% endif %}
+          <div class="post-meta">
+            <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+            <span class="post-meta-sep" aria-hidden="true">·</span>
+            <span class="post-readtime">{{ post.templateContent | readingTime }} 읽기</span>
+          </div>
+          <span class="blog-card-more">글 읽기 →</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="blog-empty">첫 번째 글을 준비 중입니다. 곧 유용한 콘텐츠로 찾아뵐게요.</p>
+    {%- endif %}
+  </div>
+</section>
+
+{%- set posts = collections.post | newest %}
+{%- if posts.length %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": {{ site.blog.title | json | safe }},
+  "description": {{ site.blog.description | json | safe }},
+  "url": {{ (site.url ~ "/blog/") | json | safe }},
+  "inLanguage": "ko-KR",
+  "publisher": { "@type": "Organization", "name": {{ site.company.name | json | safe }} },
+  "blogPost": [
+    {%- for post in posts %}
+    {
+      "@type": "BlogPosting",
+      "headline": {{ post.data.title | json | safe }},
+      "url": {{ (site.url ~ post.url) | json | safe }},
+      "datePublished": {{ (post.date | isoDate) | json | safe }}
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif %}
