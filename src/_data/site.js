@@ -3,7 +3,7 @@
 module.exports = {
   name: "KT 오피스넷·인터넷전화 현금 사은품",
   shortName: "오피스넷·인터넷전화 안내센터",
-  url: "https://kt-officenet.kr", // TODO: 실제 배포 도메인으로 교체
+  url: "https://kt-internet.co.kr",
   locale: "ko_KR",
   lang: "ko",
   description:
