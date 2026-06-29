@@ -15,6 +15,7 @@
   {%- set metaDesc = description or site.description %}
   {%- set canonical = site.url ~ page.url %}
   {%- set ogImg = site.url ~ (ogImage or site.ogImage) %}
+  {%- set pageType = schemaType or "WebPage" %}
 
   <title>{{ metaTitle }}</title>
   <meta name="description" content="{{ metaDesc }}" />
@@ -22,6 +23,8 @@
   <meta name="author" content="{{ site.company.name }}" />
   <meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow, max-image-preview:large, max-snippet:-1{% endif %}" />
   <link rel="canonical" href="{{ canonical }}" />
+  <link rel="alternate" hreflang="ko-KR" href="{{ canonical }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ canonical }}" />
   <meta name="theme-color" content="{{ site.themeColor }}" />
   {%- if site.verification.google %}<meta name="google-site-verification" content="{{ site.verification.google }}" />{% endif %}
   {%- if site.verification.naver %}<meta name="naver-site-verification" content="{{ site.verification.naver }}" />{% endif %}
@@ -36,7 +39,12 @@
   <meta property="og:image" content="{{ ogImg }}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="{{ site.name }}" />
+  <meta property="og:image:alt" content="{{ ogImageAlt or site.ogImageAlt or site.name }}" />
+  {%- if ogType == "article" %}
+  <meta property="article:published_time" content="{{ page.date | isoDate }}" />
+  <meta property="article:modified_time" content="{{ (updated or page.date) | isoDate }}" />
+  {%- if topics %}{% for topic in topics %}<meta property="article:tag" content="{{ topic }}" />{% endfor %}{% endif %}
+  {%- endif %}
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -63,6 +71,13 @@
     "alternateName": {{ site.name | json | safe }},
     "url": {{ site.url | json | safe }},
     "description": {{ site.description | json | safe }},
+    "logo": {{ (site.url ~ site.logo) | json | safe }},
+    "taxID": {{ site.company.bizNo | json | safe }},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.company.address | json | safe }},
+      "addressCountry": "KR"
+    },
     "areaServed": "KR"
   }
   </script>
@@ -74,7 +89,22 @@
     "name": {{ site.name | json | safe }},
     "url": {{ site.url | json | safe }},
     "inLanguage": "ko-KR",
-    "description": {{ site.description | json | safe }}
+    "description": {{ site.description | json | safe }},
+    "publisher": { "@type": "Organization", "name": {{ site.company.name | json | safe }} }
+  }
+  </script>
+  <!-- JSON-LD: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": {{ pageType | json | safe }},
+    "name": {{ metaTitle | json | safe }},
+    "description": {{ metaDesc | json | safe }},
+    "url": {{ canonical | json | safe }},
+    "inLanguage": "ko-KR",
+    "isPartOf": { "@type": "WebSite", "name": {{ site.name | json | safe }}, "url": {{ site.url | json | safe }} },
+    "publisher": { "@type": "Organization", "name": {{ site.company.name | json | safe }} },
+    "primaryImageOfPage": { "@type": "ImageObject", "url": {{ ogImg | json | safe }} }
   }
   </script>
   {%- if page.url == "/" %}
@@ -116,6 +146,101 @@
         "url": {{ (site.url ~ "/officenet/") | json | safe }}
       }{% if not loop.last %},{% endif %}
       {%- endfor %}
+    ]
+  }
+  </script>
+  <!-- JSON-LD: ItemList (주요 서비스) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "KT 오피스넷·인터넷전화 주요 상품",
+    "itemListElement": [
+      {%- for p in products.internet %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "item": {
+          "@type": "Product",
+          "name": {{ p.name | json | safe }},
+          "description": {{ p.desc | json | safe }},
+          "brand": { "@type": "Brand", "name": "KT" },
+          "offers": {
+            "@type": "Offer",
+            "price": "{{ p.monthlyFee }}",
+            "priceCurrency": "KRW",
+            "availability": "https://schema.org/InStock",
+            "url": {{ (site.url ~ "/officenet/") | json | safe }}
+          }
+        }
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  {%- elif page.url == "/officenet/" %}
+  <!-- JSON-LD: Product (오피스넷 상세) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "KT 오피스넷",
+    "brand": { "@type": "Brand", "name": "KT" },
+    "category": "비즈니스 인터넷",
+    "description": {{ metaDesc | json | safe }},
+    "url": {{ canonical | json | safe }},
+    "offers": [
+      {%- for p in products.internet %}
+      {
+        "@type": "Offer",
+        "name": {{ p.name | json | safe }},
+        "description": {{ (p.speed ~ " 사무실 인터넷 요금제") | json | safe }},
+        "price": "{{ p.monthlyFee }}",
+        "priceCurrency": "KRW",
+        "availability": "https://schema.org/InStock",
+        "url": {{ canonical | json | safe }}
+      }{% if not loop.last %},{% endif %}
+      {%- endfor %}
+    ]
+  }
+  </script>
+  {%- elif page.url == "/centrix/" %}
+  <!-- JSON-LD: Service (인터넷전화 상세) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "KT 인터넷전화(센트릭스)",
+    "provider": { "@type": "Organization", "name": {{ site.company.name | json | safe }} },
+    "brand": { "@type": "Brand", "name": "KT" },
+    "serviceType": "기업 인터넷전화",
+    "areaServed": "KR",
+    "description": {{ metaDesc | json | safe }},
+    "url": {{ canonical | json | safe }},
+    "offers": {
+      "@type": "Offer",
+      "name": "KT 인터넷전화(센트릭스) 회선",
+      "price": "{{ products.centrix.monthlyPerLine }}",
+      "priceCurrency": "KRW",
+      "availability": "https://schema.org/InStock",
+      "url": {{ canonical | json | safe }}
+    }
+  }
+  </script>
+  {%- elif page.url == "/guide/" %}
+  <!-- JSON-LD: HowTo (설치 절차) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "KT 오피스넷·인터넷전화 설치와 현금 사은품 수령 절차",
+    "description": {{ metaDesc | json | safe }},
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "상담", "text": "원하는 속도와 회선을 확인하고 사은품 금액을 확정합니다." },
+      { "@type": "HowToStep", "position": 2, "name": "신청·서류", "text": "사업자등록증 등 가입 서류를 준비합니다." },
+      { "@type": "HowToStep", "position": 3, "name": "방문 설치", "text": "희망 날짜에 KT 기사님이 방문해 설치합니다." },
+      { "@type": "HowToStep", "position": 4, "name": "개통 확인", "text": "인터넷과 전화가 정상 동작하는지 확인합니다." },
+      { "@type": "HowToStep", "position": 5, "name": "현금 사은품 입금", "text": "개통 확인 후 등록 계좌로 현금 사은품을 입금합니다." }
     ]
   }
   </script>

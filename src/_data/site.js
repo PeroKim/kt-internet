@@ -11,7 +11,9 @@ module.exports = {
   keywords:
     "KT 오피스넷, 오피스넷 현금 사은품, KT 인터넷전화, 기업 인터넷전화, 센트릭스, KT 센트릭스, 사무실 인터넷, 비즈니스 인터넷, 인터넷전화 요금, 오피스넷 캐시백, 오피스넷 요금, 인터넷전화 설치, 인터넷 설치 사은품",
   ogImage: "/assets/og-default.svg",
+  ogImageAlt: "KT 오피스넷·인터넷전화 현금 사은품 안내",
   themeColor: "#e6002d",
+  logo: "/assets/favicon.svg",
 
   // 사업자 정보 (운영사)
   company: {
