@@ -87,8 +87,8 @@ ogType: article
   "inLanguage": "ko-KR",
   "url": {{ (site.url ~ page.url) | json | safe }},
   "mainEntityOfPage": { "@type": "WebPage", "@id": {{ (site.url ~ page.url) | json | safe }} },
-  {%- if topics %}
-  "keywords": {{ (topics | join(", ")) | json | safe }},
+  {%- if keywords or topics %}
+  "keywords": {{ (keywords or (topics | join(", "))) | json | safe }},
   {%- endif %}
   "author": {
     "@type": "Organization",
