@@ -7,6 +7,6 @@ module.exports = {
     // URL = /blog/<파일명>/  (파일명 = 영문 슬러그)
     permalink: (data) => `/blog/${data.page.fileSlug}/`,
     // OG 이미지: 글에 image 지정 시 사용, 없으면 사이트 기본 OG
-    ogImage: (data) => data.image || "/assets/og-default.svg",
+    ogImage: (data) => data.image || "/assets/og-default.png",
   },
 };
